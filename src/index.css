@@ -1,0 +1,488 @@
+/* ============================================
+   Home Automation Dashboard — Global Styles
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* CSS Custom Properties (Design Tokens) */
+:root {
+  --bg-primary: #0F172A;
+  --bg-card: #1E293B;
+  --accent: #3B82F6;
+  --color-on: #22C55E;
+  --color-off: #64748B;
+  --color-warning: #F59E0B;
+  --color-disconnected: #EF4444;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --border-radius: 16px;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar {
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  padding: 1.25rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #3B82F6 0%, #22C55E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navbar-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Wi-Fi Icon */
+.wifi-icon {
+  font-size: 1.25rem;
+  transition: var(--transition-fast);
+}
+
+.wifi-connected {
+  color: var(--color-on);
+  animation: wifi-pulse 2s ease-in-out infinite;
+}
+
+.wifi-disconnected {
+  color: var(--color-disconnected);
+  opacity: 0.7;
+}
+
+@keyframes wifi-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* ============================================
+   STATUS BADGE
+   ============================================ */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.badge-connected {
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--color-on);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.badge-connecting {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--color-warning);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.badge-disconnected {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-disconnected);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.badge-error {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-disconnected);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   MAIN CONTENT & GRID
+   ============================================ */
+.main-content {
+  flex: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.device-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 640px) {
+  .device-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 4 columns */
+@media (min-width: 1024px) {
+  .device-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   DEVICE CARD
+   ============================================ */
+.device-card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 1.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Top border status indicator */
+.card-top-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-off);
+  transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.device-on .card-top-border {
+  background: var(--color-on);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+}
+
+/* Card states */
+.device-on {
+  border-color: rgba(34, 197, 94, 0.15);
+  box-shadow: 0 0 40px rgba(34, 197, 94, 0.08), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.device-off {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Hover effect */
+.device-card:hover:not(.device-disabled) {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+.device-on:hover:not(.device-disabled) {
+  box-shadow: 0 0 50px rgba(34, 197, 94, 0.12), 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Disabled state */
+.device-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(0.4);
+}
+
+/* Device Header */
+.device-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.device-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(100, 116, 139, 0.15);
+  transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
+  flex-shrink: 0;
+}
+
+.device-on .device-icon-wrapper {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+/* Animated glow for ON state */
+.device-on .device-icon-wrapper.glow {
+  animation: icon-glow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes icon-glow {
+  from {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.2);
+  }
+  to {
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.5), 0 0 50px rgba(34, 197, 94, 0.15);
+  }
+}
+
+.device-icon {
+  font-size: 1.75rem;
+  color: var(--color-off);
+  transition: color var(--transition-smooth), transform var(--transition-smooth);
+}
+
+.device-on .device-icon {
+  color: var(--color-on);
+  transform: scale(1.05);
+}
+
+/* Fan spinning animation when ON */
+.device-on .device-icon-wrapper:has(.fa-fan) .device-icon,
+.device-on .device-icon-wrapper .device-icon[data-icon="fan"] {
+  animation: fan-spin 2s linear infinite;
+}
+
+@keyframes fan-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Device Info */
+.device-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.device-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.device-topic {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Courier New', monospace;
+  opacity: 0.8;
+}
+
+/* Device Status Row */
+.device-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.status-text {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color var(--transition-fast);
+}
+
+.status-on {
+  color: var(--color-on);
+}
+
+.status-off {
+  color: var(--color-off);
+}
+
+.last-updated {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   TOGGLE SWITCH
+   ============================================ */
+.device-toggle {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.toggle-btn {
+  position: relative;
+  width: 64px;
+  height: 32px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  background: #475569;
+  transition: background var(--transition-smooth), transform var(--transition-fast);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+.toggle-btn:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.toggle-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.toggle-on {
+  background: var(--color-on);
+}
+
+.toggle-off {
+  background: #475569;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+  transition: transform var(--transition-smooth), background var(--transition-smooth);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-on .toggle-slider {
+  transform: translateX(32px);
+  background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 639px) {
+  .navbar-content {
+    padding: 0 1rem;
+  }
+
+  .navbar-brand h1 {
+    font-size: 1.125rem;
+  }
+
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .device-grid {
+    gap: 1rem;
+  }
+
+  .device-card {
+    padding: 1.25rem;
+  }
+
+  .device-icon-wrapper {
+    width: 52px;
+    height: 52px;
+  }
+
+  .device-icon {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
