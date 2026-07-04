@@ -16,6 +16,14 @@ const Navbar = ({ status }) => {
         <div className="navbar-brand">
           <h1>Home Automation</h1>
         </div>
+        <button
+          onClick={() => {
+            sessionStorage.removeItem("authenticated");
+            window.location.reload();
+          }}
+        >
+          Logout
+        </button>
         <div className="navbar-status">
           <FaWifi
             className={`wifi-icon ${isConnected ? 'wifi-connected' : 'wifi-disconnected'}`}

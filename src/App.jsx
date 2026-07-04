@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import Navbar from './components/Navbar'
+import Login from "./components/Login";
 import DeviceCard from './components/DeviceCard'
 import {
   connect,
@@ -30,11 +31,22 @@ const DEVICES = [
  * and renders the responsive dashboard grid.
  */
 function App() {
+  const [authenticated, setAuthenticated] = useState(
+  sessionStorage.getItem("authenticated") === "true"
+);
   const [connectionStatus, setConnectionStatus] = useState('connecting')
   const [deviceStates, setDeviceStates] = useState({})
-
+if (!authenticated) {
+  return (
+    <>
+      <Toaster position="bottom-right" />
+      <Login onSuccess={() => setAuthenticated(true)} />
+    </>
+  );
+}
   // Initialize device state map
   useEffect(() => {
+    if (!authenticated) return;
     const initialStates = {}
     DEVICES.forEach((device) => {
       initialStates[device.topic] = { state: 'OFF', lastUpdated: null }
@@ -44,6 +56,7 @@ function App() {
 
   // Setup MQTT event listeners and connection
   useEffect(() => {
+    if (!authenticated) return;
     const handleConnect = () => setConnectionStatus('connected')
     const handleDisconnect = () => setConnectionStatus('disconnected')
     const handleError = () => setConnectionStatus('error')
