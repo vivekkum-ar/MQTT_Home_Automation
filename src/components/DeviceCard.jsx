@@ -35,7 +35,7 @@ const DeviceCard = ({ name, topic, iconName, state, lastUpdated, onToggle, disab
 
   return (
     <div
-      className={`device-card ${isOn ? 'device-on' : 'device-off'} ${disabled ? 'device-disabled' : ''}`}
+      className={`device-card ${!isOn ? 'device-on' : 'device-off'} ${disabled ? 'device-disabled' : ''}`}
       role="region"
       aria-label={`${name} control card`}
     >
@@ -43,7 +43,7 @@ const DeviceCard = ({ name, topic, iconName, state, lastUpdated, onToggle, disab
       <div className="card-top-border" />
 
       <div className="device-header">
-        <div className={`device-icon-wrapper ${isOn ? 'glow' : ''}`}>
+        <div className={`device-icon-wrapper ${!isOn ? 'glow' : ''}`}>
           <Icon className="device-icon" aria-hidden="true" />
         </div>
         <div className="device-info">
@@ -53,19 +53,19 @@ const DeviceCard = ({ name, topic, iconName, state, lastUpdated, onToggle, disab
       </div>
 
       <div className="device-status">
-        <span className={`status-text ${isOn ? 'status-on' : 'status-off'}`}>
-          {isOn ? 'ON' : 'OFF'}
+        <span className={`status-text ${!isOn ? 'status-on' : 'status-off'}`}>
+          {!isOn ? 'ON' : 'OFF'}
         </span>
         <span className="last-updated">{formattedTime}</span>
       </div>
 
       <div className="device-toggle">
         <button
-          className={`toggle-btn ${isOn ? 'toggle-on' : 'toggle-off'}`}
+          className={`toggle-btn ${!isOn ? 'toggle-on' : 'toggle-off'}`}
           onClick={handleToggle}
           disabled={disabled}
-          aria-pressed={isOn}
-          aria-label={`Toggle ${name} ${isOn ? 'off' : 'on'}`}
+          aria-pressed={!isOn}
+          aria-label={`Toggle ${name} ${!isOn ? 'off' : 'on'}`}
         >
           <span className="toggle-slider" />
         </button>

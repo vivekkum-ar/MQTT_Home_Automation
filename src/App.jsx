@@ -73,9 +73,9 @@ function App() {
           const device = DEVICES.find((d) => d.topic === topic)
           if (device) {
             toast.success(
-              `${device.name} turned ${normalizedPayload}`,
+              `${device.name} turned ${normalizedPayload === 'OFF' ? 'ON' : 'OFF'}`,
               {
-                icon: normalizedPayload === 'ON' ? '⚡' : '⭕',
+                icon: normalizedPayload === 'OFF' ? '⚡' : '⭕',
                 id: `${topic}-state-change`, // Deduplicate rapid toggles
               }
             )
